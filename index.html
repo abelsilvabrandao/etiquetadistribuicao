@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Etiquetas de Distribuição</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <style>
+    :root {
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      background-color: #F1F5F9;
+    }
+
+    /* Print logic fixes */
+    #print-section {
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+      width: 100mm;
+    }
+
+    @media print {
+      @page {
+        size: 100mm 70mm;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      
+      html, body {
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      body * {
+        visibility: hidden !important;
+      }
+      
+      #print-section, #print-section * {
+        visibility: visible !important;
+      }
+      
+      #print-section {
+        position: relative !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box;
+      }
+      
+      /* Prevent extra pages */
+      html, body, #print-section {
+        overflow: hidden !important;
+      }
+      
+      /* Ensure only the print content is visible */
+      body > *:not(#print-section) {
+        display: none !important;
+      }
+      
+      .print-page {
+        width: 100mm;
+        height: 70mm;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        page-break-after: always;
+        page-break-inside: avoid;
+        break-after: page;
+        break-inside: avoid;
+        position: relative;
+        box-sizing: border-box;
+      }
+      
+      /* Remove page break after last label */
+      .print-page:last-child {
+        page-break-after: auto !important;
+        break-after: auto !important;
+      }
+      
+      .etiqueta {
+        width: 100mm !important;
+        height: 70mm !important;
+        margin: 0 auto !important;
+        padding: 2mm 3mm !important;
+        border: 1px solid #000 !important;
+        box-sizing: border-box;
+        position: relative;
+        background: white;
+      }
+      
+      .print-page:last-child {
+        page-break-after: auto;
+        break-after: auto;
+      }
+      
+      /* Remove page break after last etiqueta */
+      .etiqueta:last-child {
+        page-break-after: auto !important;
+      }
+      
+      /* Hide unnecessary elements */
+      .no-print, .btn-container, .header, .footer {
+        display: none !important;
+      }
+      
+      /* Logo and header */
+      .logo-container {
+        width: 24mm !important;
+        float: left;
+        margin-right: 1.5mm;
+      }
+      
+      .logo {
+        width: 45px !important;
+        height: auto !important;
+        max-width: 100% !important;
+      }
+      
+      /* Ajustes para o texto do emitente */
+      .etiqueta h2,
+      .etiqueta .emitente-nome {
+        font-weight: 900 !important;
+        font-size: 11.4px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 100% !important;
+        display: inline-block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1.1 !important;
+      }
+      
+      @media (min-width: 640px) {
+        .etiqueta h2,
+        .etiqueta .emitente-nome {
+          font-size: 13.6px !important;
+        }
+      }
+      
+      /* Barcode */
+      .barcode {
+        margin: 1mm 0 !important;
+        max-width: 45mm !important;
+        height: 15mm !important;
+      }
+      
+      .barcode svg {
+        max-width: 100% !important;
+        height: 15mm !important;
+      }
+      
+      /* Content grid */
+      .dados-grid {
+        display: grid !important;
+        grid-template-columns: 20mm 1fr !important;
+        gap: 0.5mm 1mm !important;
+        font-size: 7pt !important;
+        margin: 1mm 0 !important;
+      }
+      
+      .dados-grid div {
+        line-height: 1.1;
+      }
+      
+      .dados-grid strong {
+        font-weight: bold;
+      }
+      
+      /* Volume and footer */
+      .nf-vol {
+        position: absolute;
+        bottom: 12mm;
+        left: 0;
+        right: 0;
+        display: flex !important;
+        justify-content: space-between !important;
+        padding: 0 5mm !important;
+        font-size: 9pt !important;
+        font-weight: bold !important;
+      }
+      
+      .rodape {
+        position: absolute;
+        bottom: 2mm;
+        left: 0;
+        right: 0;
+        text-align: center !important;
+        font-size: 6pt !important;
+        font-weight: bold !important;
+        margin: 0 !important;
+        padding: 0 2mm !important;
+        line-height: 1.1;
+        width: 100% !important;
+        display: block !important;
+      }
+      
+      .print-page {
+        width: 100mm;
+        height: 70mm;
+        page-break-after: auto;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+      }
+      
+      /* Garante que não haverá quebras de página extras */
+      @page :blank {
+        @top-center { content: "" }
+      }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #10B981;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #059669;
+    }
+
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="text-slate-900 overflow-x-hidden">
+  <div id="root"></div>
+  <div id="print-section"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
