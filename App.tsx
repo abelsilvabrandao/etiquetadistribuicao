@@ -226,7 +226,7 @@ const App: React.FC = () => {
                     </div>
                     <div className="text-center px-6">
                       <p className="font-bold text-slate-400 text-sm">Nenhum documento carregado.</p>
-                      <p className="text-xs text-slate-300 mt-2">Arraste seus XMLs ou use o botão de importar no topo.</p>
+                      <p className="text-xs text-slate-300 mt-2">Importe seus XMLs, utilize o botão de importar no topo.</p>
                     </div>
                   </div>
                 ) : (
