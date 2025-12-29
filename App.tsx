@@ -150,7 +150,7 @@ const App: React.FC = () => {
               <h1 className="text-2xl md:text-3xl font-[950] tracking-tight text-slate-800 leading-none mb-1">
                 Intermarítima
               </h1>
-              <p className="text-emerald-600 font-extrabold text-[11px] uppercase tracking-[0.2em]">SISTEMA DE DISTRIBUIÇÃO</p>
+              <p className="text-emerald-600 font-extrabold text-[11px] uppercase tracking-[0.2em]">ETIQUETAS DE DISTRIBUIÇÃO</p>
             </div>
           </div>
 
