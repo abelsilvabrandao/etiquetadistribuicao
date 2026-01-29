@@ -1,5 +1,1 @@
-
-1. Install dependencies:
-   `npm install`
-2. Run the app:
-   `npm run dev`
+Sistema de Criação de Etiquetas de Distribuição utlizando o XML
